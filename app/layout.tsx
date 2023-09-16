@@ -2,6 +2,7 @@ import Topbar from "@/components/Topbar";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@/styles/index.css";
+import { DateProvider } from "@/contexts/DateContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,10 +18,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body className={inter.className}>
-        <Topbar />
-        {children}
-      </body>
+      <DateProvider>
+        <body className={`${inter.className}`}>
+          <Topbar />
+          {children}
+        </body>
+      </DateProvider>
     </html>
   );
 }

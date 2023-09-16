@@ -1,9 +1,29 @@
-import React from "react";
+"use client";
+
+import { useDateContext } from "@/contexts/DateContext";
+import { getMonthName } from "@/lib/date";
+import { add } from "date-fns";
 import { CgSmartHomeWashMachine } from "react-icons/cg";
 import { FaChevronLeft, FaChevronRight, FaPlusCircle } from "react-icons/fa";
 import { Button } from "./ui/button";
 
 const Topbar = () => {
+  const { displayedDate, setDisplayedDate } = useDateContext()!;
+
+  const nextDate = () => {
+    setDisplayedDate((prev: Date) => add(prev, { months: 1 }));
+  };
+
+  const prevDate = () => {
+    setDisplayedDate((prev: Date) => add(prev, { months: -1 }));
+  };
+
+  const todayDate = () => {
+    setDisplayedDate(new Date());
+  };
+
+  console.log(displayedDate);
+
   return (
     <>
       {/* Mobile navbar */}
@@ -17,11 +37,13 @@ const Topbar = () => {
         </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
-            <Button variant="outline">{"Aujourd'hui"}</Button>
-            <Button variant="outline" size="icon">
+            <Button variant="outline" onClick={todayDate}>
+              {"Aujourd'hui"}
+            </Button>
+            <Button variant="outline" size="icon" onClick={prevDate}>
               <FaChevronLeft />
             </Button>
-            <Button variant="outline" size="icon">
+            <Button variant="outline" size="icon" onClick={nextDate}>
               <FaChevronRight />
             </Button>
           </div>
@@ -41,15 +63,19 @@ const Topbar = () => {
           </div>
           <div className="flex items-center gap-5">
             <div className="flex items-center gap-1">
-              <Button variant="outline">{"Aujourd'hui"}</Button>
-              <Button variant="outline" size="icon">
+              <Button variant="outline" onClick={todayDate}>
+                {"Aujourd'hui"}
+              </Button>
+              <Button variant="outline" size="icon" onClick={prevDate}>
                 <FaChevronLeft />
               </Button>
-              <Button variant="outline" size="icon">
+              <Button variant="outline" size="icon" onClick={nextDate}>
                 <FaChevronRight />
               </Button>
             </div>
-            <span className="text-xl font-semibold">Mardi 5 septembre</span>
+            <span className="text-xl font-semibold">
+              {getMonthName(displayedDate)} {displayedDate.getFullYear()}
+            </span>
           </div>
         </div>
 
