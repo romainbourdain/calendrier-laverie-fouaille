@@ -1,14 +1,23 @@
 "use client";
 
 import { useDateContext } from "@/contexts/DateContext";
+import { DisplayType, useDisplayContext } from "@/contexts/DisplayContext";
 import { getMonthName } from "@/lib/date";
 import { add } from "date-fns";
 import { CgSmartHomeWashMachine } from "react-icons/cg";
 import { FaChevronLeft, FaChevronRight, FaPlusCircle } from "react-icons/fa";
 import { Button } from "./ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 const Topbar = () => {
   const { displayedDate, setDisplayedDate } = useDateContext()!;
+  const { setDisplay } = useDisplayContext()!;
 
   const nextDate = () => {
     setDisplayedDate((prev: Date) => add(prev, { months: 1 }));
@@ -21,8 +30,6 @@ const Topbar = () => {
   const todayDate = () => {
     setDisplayedDate(new Date());
   };
-
-  console.log(displayedDate);
 
   return (
     <>
@@ -79,11 +86,24 @@ const Topbar = () => {
           </div>
         </div>
 
-        <div>
+        <div className="flex items-center gap-2">
           <Button variant="outline">
             <FaPlusCircle className="mr-2 h-4 w-4" />
             <span>Ajouter</span>
           </Button>
+          <Select
+            defaultValue="month"
+            onValueChange={(v: DisplayType) => setDisplay(v)}
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="day">Jour</SelectItem>
+              <SelectItem value="week">Semaine</SelectItem>
+              <SelectItem value="month">Mois</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </nav>
     </>

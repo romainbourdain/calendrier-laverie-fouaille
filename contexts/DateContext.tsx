@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 
-type DateContextType = {
+export type DateContextType = {
   selectedDate: Date;
   setSelectedDate: Dispatch<SetStateAction<Date>>;
   displayedDate: Date;
